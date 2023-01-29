@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 
-class ExplicitWaitPage(BasePage):
+class ExamplePage(BasePage):
     _calendar_days = (By.XPATH, ".//table[contains(@class, 'rcMainTable')]//td[@title]")
     _selected_dates = (By.XPATH, ".//fieldset/div/span")
 

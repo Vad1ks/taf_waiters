@@ -1,14 +1,15 @@
 import random
 
 from core.js_executor import move_to_element
-from pages.explicit_wait_page import ExplicitWaitPage
+from core.urls import first_example_url
+from pages.example_page import ExamplePage
 
 
 class Test:
 
     def test_first_example(self, driver):
-        url = 'https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx'
-        page = ExplicitWaitPage(driver, url)
+        url = first_example_url
+        page = ExamplePage(driver, url)
         page.open()
 
         calendar_days = page.calendar_days()
@@ -17,4 +18,4 @@ class Test:
         move_to_element(driver, day)
         day.click()
 
-        assert day.is_selected()
+        assert "rcSelected" in day.get_attribute("class")

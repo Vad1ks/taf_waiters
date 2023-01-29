@@ -8,6 +8,6 @@ def driver():
     :return: WebDriver
     """
     driver = webdriver.Chrome(executable_path='C:\\Chromedriver\\Chromedriver.exe')
-    driver.implicitly_wait(10)
+    #driver.implicitly_wait(10)
     yield driver
     driver.quit()
