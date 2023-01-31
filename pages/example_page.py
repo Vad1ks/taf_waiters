@@ -9,7 +9,7 @@ from pages.base_page import BasePage
 class ExamplePage(BasePage):
     _calendar_days = (By.XPATH, ".//table[contains(@class, 'rcMainTable')]//td[@title]")
     _selected_dates = (By.XPATH, ".//fieldset/div/span")
-    _loader = (By.XPATH, "//div[contains(@id,'RadCalendar1')]/div[@class='raDiv']")
+    _loader = (By.XPATH, "//div[@class='raDiv']")
 
     def calendar_days(self):
         ignored_exceptions = (StaleElementReferenceException,)
@@ -27,5 +27,5 @@ class ExamplePage(BasePage):
         #ignored_exceptions = (StaleElementReferenceException, NoSuchElementException)
         WebDriverWait(self.driver, timeout=timeout) \
             .until_not(
-            expected_conditions.presence_of_element_located(self._loader)
+            expected_conditions.visibility_of_element_located(self._loader)
         )
