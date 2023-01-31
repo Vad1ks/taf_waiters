@@ -16,13 +16,9 @@ def remove_zero_before_day_number(date: str):
 
 class Test:
 
-    def test_first_example(self, driver):
+    def click_on_calendar_days(self, driver, page, days: int):
         checked_days = []
-        url = first_example_url
-        page = ExamplePage(driver, url)
-        page.open()
-
-        for i in range(3):
+        for i in range(days):
             calendar_days = page.calendar_days()
             day_number = random.randint(0, len(calendar_days) - 1)
 
@@ -39,10 +35,27 @@ class Test:
 
             move_to_element(driver, day)
             page.calendar_days()[day_number].click()
-            # time.sleep(3)
-            # page.wait_until_loader_disappears(timeout=3)
+            page.wait_until_loader_disappears(timeout=3)
 
             expected_day_text = remove_zero_before_day_number(page.calendar_days()[day_number].
                                                               get_attribute("title"))
             assert selected_dates_prev_len < len(page.selected_dates())
             assert expected_day_text in page.selected_dates()
+
+    def test_first_example(self, driver):
+        url = first_example_url
+        page = ExamplePage(driver, url)
+        page.open()
+        self.click_on_calendar_days(driver, page, 3)
+
+    def test_clear_selected_dates(self, driver):
+        url = first_example_url
+        page = ExamplePage(driver, url)
+        page.open()
+
+        self.click_on_calendar_days(driver, page, 3)
+
+        page.clear_button().click()
+        page.wait_until_loader_disappears()
+
+        assert 'No Selected Dates to display.' in page.selected_dates()
