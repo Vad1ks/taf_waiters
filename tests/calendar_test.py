@@ -1,6 +1,9 @@
 import random
 import time
 
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+
 from core.js_executor import move_to_element
 from core.urls import first_example_url
 from pages.example_page import ExamplePage
@@ -59,3 +62,33 @@ class Test:
         page.wait_until_loader_disappears()
 
         assert 'No Selected Dates to display.' in page.selected_dates()
+
+    def test_feedback_container_expand_collapse(self, driver):
+        url = first_example_url
+        page = ExamplePage(driver, url)
+        page.open()
+
+        page.feedback_container().click()
+        WebDriverWait(driver, timeout=2).until(expected_conditions.visibility_of(
+            page.feedback_container_collapse_button()))
+        assert page.feedback_container_collapse_button().is_displayed(), "Feedback container was not expanded"
+
+        page.feedback_container_collapse_button().click()
+        WebDriverWait(driver, timeout=2).until_not(expected_conditions.visibility_of(
+            page.feedback_container_collapse_button()))
+        assert not page.feedback_container_collapse_button().is_displayed(), "Feedback container was not collapsed"
+
+    def test_feedback_click_yes(self, driver):
+        url = first_example_url
+        page = ExamplePage(driver, url)
+        page.open()
+
+        page.feedback_container().click()
+
+        WebDriverWait(driver, timeout=2).until(expected_conditions.visibility_of(
+            page.feedback_container_collapse_button()))
+        assert page.feedback_container_collapse_button().is_displayed(), "Feedback container was not expanded"
+
+        page.feedback_container_yes_button().click()
+
+        assert 'Thank you for your feedback!' in page.feedback_container().text

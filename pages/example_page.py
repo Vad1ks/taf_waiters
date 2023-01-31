@@ -11,6 +11,7 @@ class ExamplePage(BasePage):
     _selected_dates = (By.XPATH, ".//fieldset/div/span")
     _loader = (By.XPATH, "//div[@class='raDiv']")
     _clear_button = (By.XPATH, "//button[contains(@class, 'clearBtn')]")
+    _shadow_root = "return document.querySelector('feedback-form').shadowRoot"
 
     def calendar_days(self):
         ignored_exceptions = (StaleElementReferenceException,)
@@ -33,3 +34,18 @@ class ExamplePage(BasePage):
 
     def clear_button(self):
         return self.driver.find_element(*self._clear_button)
+
+    def feedback_container(self):
+        return self.driver.execute_script(
+            f'''{self._shadow_root}.querySelector('div[id="feedback-container"]')'''
+        )
+
+    def feedback_container_collapse_button(self):
+        return self.driver.execute_script(
+            f'''{self._shadow_root}.querySelector('div[id="feedback-container"] svg')'''
+        )
+
+    def feedback_container_yes_button(self):
+        return self.driver.execute_script(
+            f'''{self._shadow_root}.querySelector('div[id="feedback-container"] #yes-btn')'''
+        )
