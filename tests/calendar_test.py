@@ -39,8 +39,7 @@ class Test:
 
             move_to_element(driver, day)
             page.calendar_days()[day_number].click()
-            # time.sleep(3)
-            # page.wait_until_loader_disappears(timeout=3)
+            page.wait_until_loader_disappears(timeout=3)
 
             expected_day_text = remove_zero_before_day_number(page.calendar_days()[day_number].
                                                               get_attribute("title"))

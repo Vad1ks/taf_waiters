@@ -9,13 +9,13 @@ from pages.base_page import BasePage
 class ExamplePage(BasePage):
     _calendar_days = (By.XPATH, ".//table[contains(@class, 'rcMainTable')]//td[@title]")
     _selected_dates = (By.XPATH, ".//fieldset/div/span")
-    _loader = (By.XPATH, "//div[contains(@id,'RadCalendar1')]/div[@class='raDiv']")
+    _loader = (By.XPATH, "//div[@class='raDiv']")
 
     def calendar_days(self):
         ignored_exceptions = (StaleElementReferenceException,)
         web_elements = WebDriverWait(self.driver, timeout=10, ignored_exceptions=ignored_exceptions) \
             .until(
-            expected_conditions.presence_of_all_elements_located(self._calendar_days)
+            expected_conditions.visibility_of_element_located(self._calendar_days)
         )
         return web_elements
 
